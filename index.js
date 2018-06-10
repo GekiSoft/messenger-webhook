@@ -3,41 +3,26 @@
 const
     express = require('express'),
     bodyParser = require('body-parser'),
-    app = express().use(bodyParser.json());
+    request = require('request'),
+    app = express();
 
-app.listen(process.env.PORT || 5000, () => console.log('webhook is listening'));
+app.set('port', (process.env.PORT || 5000));
 
-app.post('/webhook/', (req, res) => {
+app.use(bodyParser.urlencoded({extended : false}));
+app.use(bodyParser.json());
 
-    let body = req.body;
+app.get('/', function(req, res) {
+    res.send("Hi I am a chatbot")
+})
 
-    if (body.object === 'page') {
-        body.entry.forEach(function(entry) {
-
-            let webhook_event = entry.messaging[0];
-            console.log(webhook_event);
-        });
-
-        res.status(200).send('EVENT_RECEIVED');
-    } else {
-        res.sendStatus(404);
+app.get('/webhook/', function(req, res) {
+    if (req.query['hub.verify_token'] === "gekimon") {
+        res.send(req.query['hub.challenge'])
     }
-});
+    res.send("Wrong token")
+})
 
-app.get('/webhook/', (req, res) => {
+app.listen(app.get('port'), function() {
+    console.log("running : port")
+})
 
-    let VERIFY_TOKEN = "gekimon"
-
-    let mode = req.query['hub.mode'];
-    let token = req.query['hub.verify_token'];
-    let challenge = req.query['hub.challenge'];
-
-    if (mode && token) {
-        if (mode === 'subscribe' && token === VERIFY_TOKEN) {
-            console.log('WEBHOOK_VERIFIED');
-            res.status(200).send(challenge);
-        } else {
-            res.sendStatus(403);
-        }
-    }
-});
