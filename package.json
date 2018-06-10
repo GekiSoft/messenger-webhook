@@ -1,0 +1,23 @@
+{
+  "name": "messenger-webhook",
+  "version": "1.0.0",
+  "description": "messenger webhook",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GekiSoft/messenger-webhook.git"
+  },
+  "author": "GekiSoft",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/GekiSoft/messenger-webhook/issues"
+  },
+  "homepage": "https://github.com/GekiSoft/messenger-webhook#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3"
+  }
+}
